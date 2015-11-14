@@ -46,9 +46,7 @@ module.exports = function(app){
     });
     app.post('/parkingContext/', function(req, res, next){
         var status = 200;
-        var parkingContext ={};
-        console.log(parkingContext);
-        cmpOldParkingContextWithNew(parkingContext);
+        cmpOldParkingContextWithNew(req.body);
         console.log(changesOfParkingContext);
         res.sendStatus(status);
         res.end();
