@@ -37,11 +37,11 @@ module.exports = function(app){
 
     app.post('/parkingContext/', function(req, res, next){
         console.log(req.body);
-        var refresh = cmpOldParkingContextWithNew(req.body, reserve);
-        if(refresh){
+        var reserveB = cmpOldParkingContextWithNew(req.body, reserve);
+        if(!reserveB){
             res.send(prevParkingContext);
         }else{
-            res.send("refresh");
+            res.send("reserve");
             res.end();
         }
         next();
@@ -69,7 +69,6 @@ module.exports = function(app){
 
 function cmpOldParkingContextWithNew(newParkingContext, reserve){
     prevParkingContext = newParkingContext;
-    console.log(reserve);
     if(reserve) {
         prevParkingContext.reserved++;
         prevParkingContext.freeSpaces--;
