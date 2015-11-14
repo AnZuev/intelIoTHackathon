@@ -38,13 +38,12 @@ module.exports = function(app){
     });
 
     app.post('/parkingContext/', function(req, res, next){
-        var status = 200;
         console.log(req.body);
-        var refresh = cmpOldParkingContextWithNew(req.body, reverse);
+        var refresh = cmpOldParkingContextWithNew(req.body, reserve);
         if(refresh){
             res.send(prevParkingContext);
         }else{
-            res.sendStatus(status);
+            res.send(true);
             res.end();
         }
         next();
@@ -60,7 +59,7 @@ module.exports = function(app){
     app.post('/bookPlace', function(req, res, next){
         var free = getFreePlaces();
         if(free > 0 ) reserve++;
-    })
+    });
     app.post('/unbookPlace', function(req, res, next){
        if(reserve > 0) reserve--;
     })
@@ -73,6 +72,7 @@ function cmpOldParkingContextWithNew(newParkingContext, reserve){
     if(reserve) {
         prevParkingContext.reserved++;
         prevParkingContext.freeSpaces--;
+        reserve--;
         return true;
     }
     return false;
