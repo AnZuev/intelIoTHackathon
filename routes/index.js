@@ -1,13 +1,11 @@
 var config = require('../config');
-var host = config.get('general:host');
 var carCounter = 0;
 var maxCarCounter = 4;
 
 var prevParkingContext = {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0
+    places:[],
+    reserved:0,
+    freeSpaces:0
 };
 
 var reserve = 0;
@@ -25,7 +23,7 @@ module.exports = function(app){
     app.get('/', function(req, res, next){
 
         res.json({
-            freeSpaces: maxCarCounter - carCounter,
+            freeSpaces: getFreePlaces(),
             parking: prevParkingContext
         });
 
@@ -59,9 +57,11 @@ module.exports = function(app){
     app.post('/bookPlace', function(req, res, next){
         var free = getFreePlaces();
         if(free > 0 ) reserve++;
+        res.end();
     });
     app.post('/unbookPlace', function(req, res, next){
        if(reserve > 0) reserve--;
+        res.end();
     })
 
 };
@@ -69,6 +69,7 @@ module.exports = function(app){
 
 function cmpOldParkingContextWithNew(newParkingContext, reserve){
     prevParkingContext = newParkingContext;
+    console.log(reserve);
     if(reserve) {
         prevParkingContext.reserved++;
         prevParkingContext.freeSpaces--;
