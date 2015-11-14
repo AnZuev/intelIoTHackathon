@@ -10,7 +10,7 @@ var prevParkingContext = {
     4: 0
 };
 
-var reverse = 0;
+var reserve = 0;
 
 module.exports = function(app){
 
@@ -58,11 +58,14 @@ module.exports = function(app){
     });
 
     app.post('/bookPlace', function(req, res, next){
-        var place = req.body.place;
-        if(!prevParkingContext[place.toString()]) prevParkingContext[place.toString()] = 0;
-
+        var free = getFreePlaces();
+        if(free > 0 ) reserve++;
     })
-}
+    app.post('/unbookPlace', function(req, res, next){
+       if(reserve > 0) reserve--;
+    })
+
+};
 
 
 function cmpOldParkingContextWithNew(newParkingContext, reserve){
