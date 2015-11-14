@@ -41,7 +41,7 @@ module.exports = function(app){
         if(refresh){
             res.send(prevParkingContext);
         }else{
-            res.send(true);
+            res.send("refresh");
             res.end();
         }
         next();
