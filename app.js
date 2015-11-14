@@ -23,17 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 require('./routes')(app);
 app.use(function(err, req, res, next) {
     if(err){
-        console.error(err);
-        if(typeof err == "number"){
-            err = new HttpError(err);
-        }
-        if(err instanceof HttpError){
-            res.sendHttpError(err);
-        }else if(err instanceof DbError){
-            res.sendDBError(err);
-        }else{
-            res.statusCode = (err.status || 500);
-        }
+        throw err;
         res.end();
     }
 

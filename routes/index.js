@@ -16,15 +16,21 @@ module.exports = function(app){
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Content-Type');
-        console.log(req);
+        console.log(parking);
         next();
 
     });
 
     app.get('/', function(req, res, next){
 
-        res.render('index', {
-            freeSpaces: maxCarCounter - carCounter
+       /* res.render('index', {
+            freeSpaces: maxCarCounter - carCounter,
+            parking: parking
+        });
+        */
+        res.json({
+            freeSpaces: maxCarCounter - carCounter,
+            parking: parking
         });
 
         next();
@@ -35,18 +41,23 @@ module.exports = function(app){
         next();
     });
     app.post('/newCar/:place', function(req, res, next){
+        var status = 200;
         var place = req.params.place;
-        if(place - 1 > 0 && place - 1 < 4){
+        if((place - 1 >= 0) && (place - 1 < 4)){
             parking[indexToPlace[place - 1]] = 1;
             carCounter++;
+        }else{
+            status = 400;
         }
-        res.end(200);
+        res.sendStatus(status);
+        res.end();
+
         next();
     });
 
     app.post('/removeCar/:place', function(req, res, next){
-        var place = req.params.place;
-        if(place - 1 > 0 && place - 1 < 4){
+        var place = req.param.place;
+        if(place - 1 >= 0 && place - 1 < 4){
             parking[indexToPlace[place - 1]] = 0;
             carCounter--;
         }
