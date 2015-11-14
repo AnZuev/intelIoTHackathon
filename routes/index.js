@@ -9,17 +9,9 @@ var prevParkingContext = {
     3: 0,
     4: 0
 };
-var booking = {
-    1:0,
-    2:0,
-    3:0,
-    4:0
-};
 
+var reverse = 0;
 
-var changesOfParkingContext = {
-
-};
 module.exports = function(app){
 
     app.all('*', function(req, res, next) {
@@ -44,12 +36,17 @@ module.exports = function(app){
         res.end();
         next();
     });
+
     app.post('/parkingContext/', function(req, res, next){
         var status = 200;
         console.log(req.body);
-        cmpOldParkingContextWithNew(req.body);
-        res.sendStatus(status);
-        res.end();
+        var refresh = cmpOldParkingContextWithNew(req.body, reverse);
+        if(refresh){
+            res.send(prevParkingContext);
+        }else{
+            res.sendStatus(status);
+            res.end();
+        }
         next();
     });
     app.get('/parkingContext', function(req, res, next){
@@ -65,32 +62,23 @@ module.exports = function(app){
         if(!prevParkingContext[place.toString()]) prevParkingContext[place.toString()] = 0;
 
     })
-
-
-
-
-
-
-
-
-
-
 }
 
-function cmpOldParkingContextWithNew(newParkingContext){
-    for(var key in prevParkingContext){
-        if(newParkingContext[key] != prevParkingContext[key]){
-            changesOfParkingContext[key] = newParkingContext[key]
-        }
-    }
+
+function cmpOldParkingContextWithNew(newParkingContext, reserve){
     prevParkingContext = newParkingContext;
-    return;
+    if(reserve) {
+        prevParkingContext.reserved++;
+        prevParkingContext.freeSpaces--;
+        return true;
+    }
+    return false;
 }
 
 function getFreePlaces(){
     var counter = 0;
-    for(var key in prevParkingContext){
-        if(prevParkingContext[key]) counter++;
+    for(var i =0; i< prevParkingContext.places.length; i++){
+        if(!prevParkingContext.places[i].isBusy) counter++;
     }
     return counter;
 }
