@@ -41,10 +41,7 @@ module.exports = function(app){
         var status = 200;
 
         var parkingContext ={};
-        parkingContext['1'] = req.body['5'];
-        parkingContext['2'] = req.body['6'];
-        parkingContext['3'] = req.body['7'];
-        parkingContext['4'] = req.body['8'];
+        
         console.log(parkingContext);
         cmpOldParkingContextWithNew(parkingContext);
         console.log(changesOfParkingContext);
