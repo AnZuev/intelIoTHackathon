@@ -29,7 +29,11 @@ module.exports = function(app){
 
         next();
     });
-
+    app.get('/test', function(req, res, next){
+        res.send("Привет");
+        res.end();
+        next();
+    });
     app.post('/newCar/:place', function(req, res, next){
         var place = req.params.place;
         if(place - 1 > 0 && place - 1 < 4){
