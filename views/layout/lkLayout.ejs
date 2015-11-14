@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://pre-static.istudentapp.ru/styles/reset.css"/>
+    <link rel="stylesheet" href="http://pre-static.istudentapp.ru/styles/lkGlobalStyle.css">
+    <link rel="stylesheet" href="http://pre-static.istudentapp.ru/styles/globalStyles.css"/>
+
+    <%-blocks.style%>
+
+
+    <title><%=blocks.title%></title>
+</head>
+<body>
+<%- partial('../partials/lkMenu')%>
+
+    <div id="layoutForLK">
+
+        <%-body -%>
+
+
+    </div>
+    <ul id="layoutForNotification"></ul>
+
+    <div class="smoothEveryThing hide"><%=blocks.smoothEverythingContent%></div>
+
+<footer>
+
+</footer>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="http://pre-static.istudentapp.ru/scripts/Error.js"></script>
+<script type="text/javascript" src="http://pre-static.istudentapp.ru/scripts/UserClass.js"></script>
+<script type="text/javascript" src="http://pre-static.istudentapp.ru/scripts/additionalMethods.js" ></script>
+<script type="text/javascript" src = "http://pre-static.istudentapp.ru/scripts/notifications.js"></script>
+<%-blocks.script%>
+
+</body>
+</html>
