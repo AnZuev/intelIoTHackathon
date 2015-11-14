@@ -9,6 +9,14 @@ var prevParkingContext = {
     3: 0,
     4: 0
 };
+var booking = {
+    1:0,
+    2:0,
+    3:0,
+    4:0
+};
+
+
 var changesOfParkingContext = {
 
 };
@@ -24,7 +32,6 @@ module.exports = function(app){
 
     app.get('/', function(req, res, next){
 
-
         res.json({
             freeSpaces: maxCarCounter - carCounter,
             parking: prevParkingContext
@@ -39,9 +46,7 @@ module.exports = function(app){
     });
     app.post('/parkingContext/', function(req, res, next){
         var status = 200;
-
         var parkingContext ={};
-        
         console.log(parkingContext);
         cmpOldParkingContextWithNew(parkingContext);
         console.log(changesOfParkingContext);
@@ -49,6 +54,19 @@ module.exports = function(app){
         res.end();
         next();
     });
+    app.get('/parkingContext', function(req, res, next){
+        var parkingContext = {
+           freeSpaces:getFreePlaces(),
+           parkingContext: prevParkingContext
+        };
+        res.json(parkingContext);
+    });
+
+    app.post('/bookPlace', function(req, res, next){
+        var place = req.body.place;
+        if(!prevParkingContext[place.toString()]) prevParkingContext[place.toString()] = 0;
+
+    })
 
 
 
@@ -69,4 +87,12 @@ function cmpOldParkingContextWithNew(newParkingContext){
     }
     prevParkingContext = newParkingContext;
     return;
+}
+
+function getFreePlaces(){
+    var counter = 0;
+    for(var key in prevParkingContext){
+        if(prevParkingContext[key]) counter++;
+    }
+    return counter;
 }
