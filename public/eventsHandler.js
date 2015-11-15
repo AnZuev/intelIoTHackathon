@@ -13,14 +13,15 @@ $(document).ready(function(){
 
 
     $('#reserve').click(function(){
+        $('.removeReserve').hide();
         if(window.reserve) {
             $('.alert').html("Нельзя бронировать больше одного места");
             setTimeout(function(){
                 $('.alert').html("Для Вас забронировано 1 место");
+                $('.removeReserve').fadeIn(500);
             }, 2000);
             return false;
         }
-        console.log('1');
         $.ajax({
             url:"/bookPlace",
             method:"POST",
@@ -30,6 +31,22 @@ $(document).ready(function(){
                 window.reserve = true;
                 setTimeout(function(){
                     $('.alert').html("Для Вас забронировано 1 место");
+                    $('.removeReserve').fadeIn(500);
+                }, 2000);
+            }
+        });
+    })
+    $('.removeReserve').click(function(){
+
+        $.ajax({
+            url:"/unbookPlace",
+            method:"POST",
+            success:function(){
+                $('.alert').html("Спасибо :)").fadeIn(500);
+                $('.removeReserve').hide()
+                window.reserve = true;
+                setTimeout(function(){
+                    $('.alert').fadeOut(500);
                 }, 2000);
             }
         });

@@ -32,3 +32,8 @@ div{
 .alert{
     display: none;
 }
+.removeReserve{
+    font-weight: 500;
+    color:red;
+    display: none;
+}
