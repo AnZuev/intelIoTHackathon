@@ -9,7 +9,6 @@ var prevParkingContext = {
 };
 
 var reserve = 0;
-var reserveFlag = false;
 
 module.exports = function(app){
 
@@ -37,27 +36,18 @@ module.exports = function(app){
     });
 
     app.post('/parkingContext/', function(req, res, next){
-        console.log(req.body);
-        var reserveB = cmpOldParkingContextWithNew(req.body);
-        if(!reserveB){
-            res.send(prevParkingContext);
-        }else{
-            res.send("reserve");
-            res.end();
-        }
+        cmpOldParkingContextWithNew(req.body);
+        res.send(reserved);
+        res.end();
         next();
     });
     app.get('/parkingContext', function(req, res, next){
-        var parkingContext = {
-           freeSpaces:getFreePlaces(),
-           parkingContext: prevParkingContext
-        };
-        res.json(parkingContext);
+        res.json(prevParkingContext);
     });
 
     app.post('/bookPlace', function(req, res, next){
         var free = getFreePlaces();
-        if(free > 0 ) reverseFlag = true;
+        if(free > 0 ) reserve++;
         res.end();
     });
     app.post('/unbookPlace', function(req, res, next){
@@ -70,13 +60,6 @@ module.exports = function(app){
 
 function cmpOldParkingContextWithNew(newParkingContext){
     prevParkingContext = newParkingContext;
-    if(reserveFlag) {
-        prevParkingContext.reserved++;
-        prevParkingContext.freeSpaces--;
-        
-        return true;
-    }
-    return false;
 }
 
 function getFreePlaces(){
