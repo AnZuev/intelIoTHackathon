@@ -37,7 +37,7 @@ module.exports = function(app){
 
     app.post('/parkingContext/', function(req, res, next){
         cmpOldParkingContextWithNew(req.body);
-        res.send(reserved);
+        res.send(reserve);
         res.end();
         next();
     });
@@ -53,6 +53,12 @@ module.exports = function(app){
     app.post('/unbookPlace', function(req, res, next){
        if(reserve > 0) reserve--;
         res.end();
+    })
+
+    app.get('/mapp', function(req, res, next){
+        res.render('mapp', {
+            parkingContext: prevParkingContext
+        });
     })
 
 };
