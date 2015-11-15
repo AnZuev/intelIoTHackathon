@@ -23,7 +23,6 @@ module.exports = function(app){
     app.get('/', function(req, res, next){
 
         res.json({
-            freeSpaces: getFreePlaces(),
             parking: prevParkingContext
         });
 
@@ -67,7 +66,7 @@ module.exports = function(app){
 function cmpOldParkingContextWithNew(newParkingContext){
     prevParkingContext = newParkingContext;
     prevParkingContext.reserved = reserve;
-    prevParkingContext.freeSpaces = getFreePlaces();
+    prevParkingContext.freeSpaces = getFreePlaces() - reserve;
 }
 
 function getFreePlaces(){
