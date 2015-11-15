@@ -8,6 +8,9 @@ $(document).ready(function(){
             $('section').fadeIn(500);
         }
     });
+    setInterval(reloadData, 1000);
+
+
 
     $('#reserve').click(function(){
         if(reserve) {
@@ -30,3 +33,12 @@ $(document).ready(function(){
     })
 
 })
+
+function reloadData(){
+    $.ajax({
+        url:"/parkingContext",
+        success:function(result){
+            $('#spaceCounter').html(result.freeSpaces);
+        }
+    });
+}
