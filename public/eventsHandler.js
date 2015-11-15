@@ -3,6 +3,7 @@ $(document).ready(function(){
     $.ajax({
         url:"/parkingContext",
         success:function(result){
+            console.log(result);
             $('#spaceCounter').html(result.freeSpaces);
             $('section').fadeIn(500);
         }

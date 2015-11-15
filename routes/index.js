@@ -67,6 +67,7 @@ module.exports = function(app){
 function cmpOldParkingContextWithNew(newParkingContext){
     prevParkingContext = newParkingContext;
     prevParkingContext.reserved = reserve;
+    prevParkingContext.freeSpaces = getFreePlaces();
 }
 
 function getFreePlaces(){
