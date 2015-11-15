@@ -9,6 +9,7 @@ var prevParkingContext = {
 };
 
 var reserve = 0;
+var reserveFlag = false;
 
 module.exports = function(app){
 
@@ -56,7 +57,7 @@ module.exports = function(app){
 
     app.post('/bookPlace', function(req, res, next){
         var free = getFreePlaces();
-        if(free > 0 ) reserve++;
+        if(free > 0 ) reverseFlag = true;
         res.end();
     });
     app.post('/unbookPlace', function(req, res, next){
@@ -69,10 +70,10 @@ module.exports = function(app){
 
 function cmpOldParkingContextWithNew(newParkingContext){
     prevParkingContext = newParkingContext;
-    if(reserve) {
+    if(reserveFlag) {
         prevParkingContext.reserved++;
         prevParkingContext.freeSpaces--;
-        reserve--;
+        
         return true;
     }
     return false;
