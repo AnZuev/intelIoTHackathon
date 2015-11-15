@@ -68,7 +68,6 @@ function cmpOldParkingContextWithNew(newParkingContext){
     prevParkingContext = newParkingContext;
     prevParkingContext.reserved = reserve;
     prevParkingContext.freeSpaces = getFreePlaces();
-    console.log(newParkingContext);
 }
 
 function getFreePlaces(){
