@@ -37,7 +37,7 @@ module.exports = function(app){
 
     app.post('/parkingContext/', function(req, res, next){
         cmpOldParkingContextWithNew(req.body);
-        res.send(reserve);
+        res.send(reserve.toString());
         res.end();
         next();
     });
